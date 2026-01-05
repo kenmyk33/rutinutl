@@ -24,7 +24,7 @@ export default function PrivacyScreen() {
           <View style={styles.iconContainer}>
             <Shield size={32} color={colors.accent} />
           </View>
-          <Text style={styles.lastUpdated}>Last updated: December 26, 2024</Text>
+          <Text style={styles.lastUpdated}>Last updated: January 3, 2026</Text>
         </View>
 
         <View style={styles.section}>
@@ -145,7 +145,7 @@ export default function PrivacyScreen() {
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            2025 Mytools. All rights reserved.
+            2025 Mytools The organizer app. All rights reserved.
           </Text>
         </View>
       </ScrollView>

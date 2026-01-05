@@ -24,14 +24,14 @@ export default function TermsScreen() {
           <View style={styles.iconContainer}>
             <FileText size={32} color={colors.accent} />
           </View>
-          <Text style={styles.lastUpdated}>Last updated: December 26, 2024</Text>
+          <Text style={styles.lastUpdated}>Last updated: January 3, 2026</Text>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>1. Acceptance of Terms</Text>
           <View style={styles.card}>
             <Text style={styles.text}>
-              By accessing or using Tool Organizer ("the App"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the App.
+              By accessing Mytools the organizer app ("the App"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the App.
             </Text>
           </View>
         </View>
@@ -132,7 +132,7 @@ export default function TermsScreen() {
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            2025 Mytools. All rights reserved.
+            2025 Mytools the organizer app. All rights reserved.
           </Text>
         </View>
       </ScrollView>
