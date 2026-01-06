@@ -137,7 +137,7 @@ export default function SignInScreen() {
           </TouchableOpacity>
 
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Don't have an account? </Text>
+            <Text style={styles.footerText}>Don&apos;t have an account? </Text>
             <Link href="/sign-up" asChild>
               <TouchableOpacity disabled={loading}>
                 <Text style={styles.link}>Sign Up</Text>
