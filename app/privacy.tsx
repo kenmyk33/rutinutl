@@ -107,10 +107,10 @@ export default function PrivacyScreen() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>7. Children's Privacy (COPPA Compliance)</Text>
+          <Text style={styles.sectionTitle}>7. Children&apos;s Privacy (COPPA Compliance)</Text>
           <View style={styles.card}>
             <Text style={styles.text}>
-              The App is not intended for children under 13 years of age. In compliance with the Children's Online Privacy Protection Act (COPPA), we:{'\n'}
+              The App is not intended for children under 13 years of age. In compliance with the Children&apos;s Online Privacy Protection Act (COPPA), we:{'\n'}
               {'\n'}- Require users to provide their date of birth during registration{'\n'}
               - Do not permit account creation for users under 13 years old{'\n'}
               - Do not knowingly collect personal information from children under 13{'\n'}
@@ -142,7 +142,7 @@ export default function PrivacyScreen() {
           <Text style={styles.sectionTitle}>10. Contact Us</Text>
           <View style={styles.card}>
             <Text style={styles.text}>
-              If you have questions about this Privacy Policy or want to exercise your data rights, please contact us through the App's support channels.
+              If you have questions about this Privacy Policy or want to exercise your data rights, please contact us through the App&apos;s support channels.
             </Text>
           </View>
         </View>
