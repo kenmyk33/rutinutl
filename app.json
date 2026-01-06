@@ -4,12 +4,12 @@
     "slug": "tool-organizer",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/mytools_logo.png",
+    "icon": "./assets/images/Mytools_LOGO.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/mytools_logo.png",
+      "image": "./assets/images/Mytools_LOGO.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,7 +22,7 @@
       "package": "com.organizerapp.mytools",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/mytools_logo.png",
+        "foregroundImage": "./assets/images/Mytools_LOGO.png",
         "backgroundColor": "#ffffff"
       }
     },
