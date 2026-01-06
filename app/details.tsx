@@ -550,11 +550,11 @@ export default function DetailsScreen() {
               >
                 <View style={styles.toolContent}>
                   {tool.image_url ? (
-                    <Image
-                      source={{ uri: tool.image_url }}
-                      style={styles.toolImage}
-                      cache="force-cache"
-                    />
+                   <Image
+  source={{ uri: item.image_uri }}
+  style={styles.image}
+  resizeMode="cover"
+/>
                   ) : (
                     <View style={styles.toolImagePlaceholder}>
                       <ImageIcon color={colors.textMuted} size={32} />
@@ -605,10 +605,10 @@ export default function DetailsScreen() {
                 {selectedTool.image_url ? (
                   <View style={styles.modalImageContainer}>
                     <Image
-                      source={{ uri: selectedTool.image_url }}
-                      style={styles.modalImage}
-                      cache="force-cache"
-                    />
+  source={{ uri: item.image_uri }}
+  style={styles.image}
+  resizeMode="cover"
+/>
                     <View style={styles.imageActions}>
                       <TouchableOpacity
                         style={styles.imageActionButton}
