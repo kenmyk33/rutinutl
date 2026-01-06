@@ -189,7 +189,7 @@ export default function SignUpScreen() {
           </View>
           <Text style={styles.confirmationTitle}>Check Your Email</Text>
           <Text style={styles.confirmationText}>
-            We've sent a 6-digit verification code to:
+            We&apos;ve sent a 6-digit verification code to:
           </Text>
           <Text style={styles.confirmationEmail}>{email}</Text>
           <Text style={styles.confirmationText}>
