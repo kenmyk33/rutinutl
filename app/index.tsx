@@ -38,7 +38,7 @@ export default function InitialScreen() {
         style={styles.logoImage}
         resizeMode="contain"
       />
-      <ActivityIndicator size="large" color="#0066CC" style={styles.spinner} />
+      <ActivityIndicator size="large" color="#2E6DA4" style={styles.spinner} />
     </View>
   );
 }
