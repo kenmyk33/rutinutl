@@ -248,12 +248,11 @@ export default function GalleryScreen() {
                 onPress={() => handleImagePress(index)}
                 activeOpacity={0.8}
               >
-                <Image
-                  source={{ uri: image.image_uri }}
-                  style={styles.cardImage}
-                  resizeMode="cover"
-                  cache="force-cache"
-                />
+               <Image
+  source={{ uri: item.image_uri }}
+  style={styles.image}
+  resizeMode="cover"
+/>
                 <View style={styles.cardOverlay}>
                   <View style={styles.cardTitleContainer}>
                     <Text style={styles.cardTitle} numberOfLines={1}>
