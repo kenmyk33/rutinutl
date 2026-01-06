@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { adapty, AdaptyProfile, AdaptyPaywall, AdaptyProduct, AdaptyError } from 'react-native-adapty';
+import { adapty, AdaptyProfile, AdaptyPaywall, AdaptyPaywallProduct, AdaptyError } from 'react-native-adapty';
 import { PlanId } from './subscriptionLimits';
 
 const ADAPTY_API_KEY = process.env.EXPO_PUBLIC_ADAPTY_API_KEY || '';
@@ -121,7 +121,7 @@ export function parseSubscriptionInfo(profile: AdaptyProfile | null): AdaptySubs
     isPremium: true,
     planId,
     billingCycle,
-    isTrial: premiumAccess.activatedIntroductory || false,
+    isTrial: premiumAccess.isInGracePeriod || false,
     expiresAt: premiumAccess.expiresAt ? new Date(premiumAccess.expiresAt) : null,
     willRenew: premiumAccess.willRenew || false,
   };
@@ -152,7 +152,7 @@ export async function getPaywall(): Promise<AdaptyPaywall | null> {
   }
 }
 
-export async function getPaywallProducts(): Promise<AdaptyProduct[]> {
+export async function getPaywallProducts(): Promise<AdaptyPaywallProduct[]> {
   if (Platform.OS === 'web') return [];
   if (!isInitialized) return [];
 
@@ -168,7 +168,8 @@ export async function getPaywallProducts(): Promise<AdaptyProduct[]> {
   }
 }
 
-export function parseProductInfo(product: AdaptyProduct): AdaptyProductInfo {
+
+export function parseProductInfo(product: AdaptyPaywallProduct): AdaptyProductInfo {
   const productId = product.vendorProductId;
   const planId = getPlanFromProductId(productId);
   const billingCycle = getBillingCycleFromProductId(productId) || 'monthly';
@@ -183,7 +184,8 @@ export function parseProductInfo(product: AdaptyProduct): AdaptyProductInfo {
   };
 }
 
-export async function makePurchase(product: AdaptyProduct): Promise<{
+
+export async function makePurchase(product: AdaptyPaywallProduct): Promise<{
   success: boolean;
   profile: AdaptyProfile | null;
   error: string | null;
@@ -205,20 +207,32 @@ export async function makePurchase(product: AdaptyProduct): Promise<{
 
   try {
     const result = await adapty.makePurchase(product);
-    return {
-      success: true,
-      profile: result,
-      error: null,
-    };
-  } catch (error) {
-    const adaptyError = error as AdaptyError;
-    if (adaptyError.adaptyCode === 2) {
+    
+    // Handle the new AdaptyPurchaseResult type
+    if (result.type === 'user_cancelled') {
       return {
         success: false,
         profile: null,
         error: 'Purchase cancelled',
       };
     }
+    
+    if (result.type === 'pending') {
+      return {
+        success: false,
+        profile: null,
+        error: 'Purchase pending',
+      };
+    }
+    
+    // result.type === 'success' - contains profile
+    return {
+      success: true,
+      profile: 'profile' in result ? result.profile : null,
+      error: null,
+    };
+  } catch (error) {
+    const adaptyError = error as AdaptyError;
     console.error('Adapty: Purchase failed', error);
     return {
       success: false,
@@ -227,6 +241,7 @@ export async function makePurchase(product: AdaptyProduct): Promise<{
     };
   }
 }
+
 
 export async function restorePurchases(): Promise<{
   success: boolean;
