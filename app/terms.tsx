@@ -89,7 +89,7 @@ export default function TermsScreen() {
           <Text style={styles.sectionTitle}>7. Acceptable Use</Text>
           <View style={styles.card}>
             <Text style={styles.text}>
-              You agree not to use the App for any unlawful purpose, upload malicious content, attempt to gain unauthorized access to our systems, or interfere with other users' use of the service.
+              You agree not to use the App for any unlawful purpose, upload malicious content, attempt to gain unauthorized access to our systems, or interfere with other users&apos; use of the service.
             </Text>
           </View>
         </View>
@@ -98,7 +98,7 @@ export default function TermsScreen() {
           <Text style={styles.sectionTitle}>8. Limitation of Liability</Text>
           <View style={styles.card}>
             <Text style={styles.text}>
-              The App is provided "as is" without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the service. Our total liability shall not exceed the amount you paid for the service in the preceding 12 months.
+              The App is provided &quot;as is&quot; without warranties of any kind. We are not liable for any indirect, incidental, or consequential damages arising from your use of the service. Our total liability shall not exceed the amount you paid for the service in the preceding 12 months.
             </Text>
           </View>
         </View>
@@ -125,7 +125,7 @@ export default function TermsScreen() {
           <Text style={styles.sectionTitle}>11. Contact</Text>
           <View style={styles.card}>
             <Text style={styles.text}>
-              If you have questions about these Terms of Service, please contact us through the App's support channels.
+              If you have questions about these Terms of Service, please contact us through the App&apos;s support channels.
             </Text>
           </View>
         </View>
