@@ -42,7 +42,7 @@ export default function SearchResults({
     return (
       <View style={styles.container}>
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No tools found for "{query}"</Text>
+          <Text style={styles.emptyText}>No tools found for &quot;{query}&quot;</Text>
         </View>
       </View>
     );
