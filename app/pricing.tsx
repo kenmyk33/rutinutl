@@ -16,7 +16,7 @@ import { useSubscription } from '@/contexts/SubscriptionContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { PLANS, PlanInfo, formatLimit } from '@/lib/subscriptionLimits';
 import { parseProductInfo } from '@/lib/adapty';
-import type { AdaptyProduct } from 'react-native-adapty';
+import type { AdaptyPaywallProduct } from 'react-native-adapty';
 
 export default function PricingScreen() {
   const router = useRouter();
@@ -75,7 +75,7 @@ export default function PricingScreen() {
     }
   };
 
-  const getProductForPlan = (plan: PlanInfo): AdaptyProduct | null => {
+   const getProductForPlan = (plan: PlanInfo): AdaptyPaywallProduct | null => {
     const targetProductId = billingCycle === 'monthly'
       ? plan.adaptyProductIdMonthly
       : plan.adaptyProductIdYearly;
@@ -211,7 +211,7 @@ export default function PricingScreen() {
       {isTrial && currentPlan.id !== 'free' && (
         <View style={styles.trialBanner}>
           <Gift size={18} color="#FFFFFF" />
-          <Text style={styles.trialBannerText}>You're on a free trial</Text>
+          <Text style={styles.trialBannerText}>You&apos;re on a free trial</Text>
         </View>
       )}
 
