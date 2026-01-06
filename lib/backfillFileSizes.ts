@@ -40,9 +40,9 @@ export async function backfillFileSizes(userId: string): Promise<{
       return { success: errors.length === 0, updated: 0, errors };
     }
 
-    // Process each image
-    for (const image of images) {
-      try {
+        // Process each image
+    if (images) {
+      for (const image of images) {
         // Extract the storage path from the image_uri
         const path = extractStoragePathFromUri(image.image_uri, userId);
 
@@ -104,6 +104,7 @@ export async function backfillFileSizes(userId: string): Promise<{
       } catch (error) {
         errors.push(`Error processing image ${image.id}: ${error}`);
       }
+          }
     }
 
     // Process each tool image
