@@ -610,11 +610,10 @@ export default function HomeScreen() {
             style={styles.imageContainer}
           >
             <Image
-              source={{ uri: item.image_uri }}
-              style={styles.image}
-              resizeMode="cover"
-              cache="force-cache"
-            />
+  source={{ uri: item.image_uri }}
+  style={styles.image}
+  resizeMode="cover"
+/>
             {item.markers.map((marker: LocationMarker) => {
               const isHighlighted = highlightedMarkerId === marker.id;
               const MarkerComponent = isHighlighted ? Animated.View : TouchableOpacity;
