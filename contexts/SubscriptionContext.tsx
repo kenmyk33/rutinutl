@@ -15,7 +15,7 @@ import {
   isAdaptySupported,
   AdaptySubscriptionInfo,
 } from '@/lib/adapty';
-import type { AdaptyProduct } from 'react-native-adapty';
+import type { AdaptyPaywallProduct } from 'react-native-adapty';
 
 interface Subscription {
   id: string;
@@ -31,6 +31,7 @@ interface Subscription {
   canceled_at: string | null;
   created_at: string;
   updated_at: string;
+  stripe_customer_id: string | null;  // ADD THIS LINE
 }
 
 interface UsageStats {
@@ -48,7 +49,7 @@ interface SubscriptionContextType {
   usage: UsageStats;
   loading: boolean;
   isTrial: boolean;
-  adaptyProducts: AdaptyProduct[];
+  adaptyProducts: AdaptyPaywallProduct[];
   productsLoading: boolean;
   purchaseInProgress: boolean;
   canAddImage: () => boolean;
@@ -60,7 +61,7 @@ interface SubscriptionContextType {
   refreshUsage: () => Promise<void>;
   refreshSubscription: () => Promise<void>;
   loadProducts: () => Promise<void>;
-  purchase: (product: AdaptyProduct) => Promise<{ success: boolean; error: string | null }>;
+  purchase: (product: AdaptyPaywallProduct) => Promise<{ success: boolean; error: string | null }>;
   restore: () => Promise<{ success: boolean; error: string | null }>;
   isNativePaymentSupported: boolean;
 }
@@ -79,7 +80,7 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [usage, setUsage] = useState<UsageStats>(defaultUsage);
   const [loading, setLoading] = useState(true);
-  const [adaptyProducts, setAdaptyProducts] = useState<AdaptyProduct[]>([]);
+  const [adaptyProducts, setAdaptyProducts] = useState<AdaptyPaywallProduct[]>([]);
   const [productsLoading, setProductsLoading] = useState(false);
   const [purchaseInProgress, setPurchaseInProgress] = useState(false);
   const [adaptyInitialized, setAdaptyInitialized] = useState(false);
@@ -289,7 +290,7 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
     }
   }, [adaptyInitialized]);
 
-  const purchase = useCallback(async (product: AdaptyProduct): Promise<{ success: boolean; error: string | null }> => {
+   const purchase = useCallback(async (product: AdaptyPaywallProduct): Promise<{ success: boolean; error: string | null }> => {
     if (!adaptyInitialized) {
       return { success: false, error: 'Payment system not initialized' };
     }
