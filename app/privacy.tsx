@@ -38,9 +38,13 @@ export default function PrivacyScreen() {
             <Text style={styles.text}>
               We store photos you upload, location markers you create, and tool information you enter to provide our service.
             </Text>
-            <Text style={styles.subtitle}>Usage Data</Text>
+            <Text style={styles.subtitle}>Usage Data/Device permissions</Text>
             <Text style={styles.text}>
-              We collect anonymous usage statistics to improve the App, including feature usage and error reports.
+              We collect anonymous usage statistics to improve the App, including feature usage and error reports. We request camera permission to 
+              allow you to take photos of your items directly within the app.  Camera access is only used when you explicitly choose to take a photo. We do not access
+              your camera in the background. We request photo library permission to allow you to select existing photos from your device. We only access photos you
+              explicitly select.
+              
             </Text>
           </View>
         </View>
