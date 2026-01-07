@@ -197,7 +197,7 @@ function extractStoragePathFromUri(uri: string, userId: string): string | null {
     }
 
     return null;
-  } catch {
+    } catch (_error) {
     return null;
   }
 }
