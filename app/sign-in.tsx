@@ -65,7 +65,7 @@ export default function SignInScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <Image
-            source={require('@/assets/images/icon.png')}
+            source={require('@/assets/images/Mytools_LOGO.png')}
             style={styles.logoImage}
             resizeMode="contain"
           />
