@@ -552,7 +552,7 @@ export default function DetailsScreen() {
                   {tool.image_url ? (
                    <Image
   source={{ uri: item.image_uri }}
-  style={styles.image}
+  style={styles.itemImage}
   resizeMode="cover"
 />
                   ) : (
@@ -605,8 +605,8 @@ export default function DetailsScreen() {
                 {selectedTool.image_url ? (
                   <View style={styles.modalImageContainer}>
                     <Image
-  source={{ uri: item.image_uri }}
-  style={styles.image}
+  source={{ uri: selectedTool.image_uri }}
+  style={styles.modalImage}
   resizeMode="cover"
 />
                     <View style={styles.imageActions}>
