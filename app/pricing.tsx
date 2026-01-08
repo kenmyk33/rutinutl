@@ -91,7 +91,7 @@ export default function PricingScreen() {
   const getProductPrice = (plan: PlanInfo): string => {
     const product = getProductForPlan(plan);
     if (product) {
-      return product.localizedPrice || `$${billingCycle === 'monthly' ? plan.priceMonthly : plan.priceYearly}`;
+      return product.price?.localizedString || `$${billingCycle === 'monthly' ? plan.priceMonthly : plan.priceYearly}`;
     }
     const price = billingCycle === 'monthly' ? plan.priceMonthly : plan.priceYearly;
     return price === 0 ? 'Free' : `$${price.toFixed(2)}`;
