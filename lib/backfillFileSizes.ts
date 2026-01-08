@@ -1,9 +1,6 @@
+// lib/backfillFileSizes.ts
 import { supabase } from './supabase';
 
-/**
- * Backfill file sizes for storage images and tool images that have file_size = 0
- * This reads the actual file size from Supabase Storage and updates the database
- */
 export async function backfillFileSizes(userId: string): Promise<{
   success: boolean;
   updated: number;
@@ -13,7 +10,6 @@ export async function backfillFileSizes(userId: string): Promise<{
   let updated = 0;
 
   try {
-    // Get all storage images with file_size = 0 for this user
     const { data: images, error: queryError } = await supabase
       .from('storage_images')
       .select('id, image_uri')
@@ -24,7 +20,6 @@ export async function backfillFileSizes(userId: string): Promise<{
       errors.push(`Failed to query storage images: ${queryError.message}`);
     }
 
-    // Get all tools with images but file_size = 0 for this user
     const { data: tools, error: toolsQueryError } = await supabase
       .from('tools')
       .select('id, image_url')
@@ -40,10 +35,8 @@ export async function backfillFileSizes(userId: string): Promise<{
       return { success: errors.length === 0, updated: 0, errors };
     }
 
-        // Process each image
-      for (const image of images || []) {
-        try {
-        // Extract the storage path from the image_uri
+    for (const image of images || []) {
+      try {
         const path = extractStoragePathFromUri(image.image_uri, userId);
 
         if (!path) {
@@ -51,11 +44,10 @@ export async function backfillFileSizes(userId: string): Promise<{
           continue;
         }
 
-        // List the file to get its metadata
         const { data: files, error: listError } = await supabase.storage
           .from('storage-images')
           .list(userId, {
-            search: path.split('/').pop() // Get just the filename
+            search: path.split('/').pop()
           });
 
         if (listError) {
@@ -66,7 +58,6 @@ export async function backfillFileSizes(userId: string): Promise<{
         const file = files?.find(f => f.name === path.split('/').pop());
 
         if (!file || !file.metadata?.size) {
-          // Try to fetch the file to get its size
           const { data: fileData, error: downloadError } = await supabase.storage
             .from('storage-images')
             .download(path);
@@ -76,7 +67,6 @@ export async function backfillFileSizes(userId: string): Promise<{
             continue;
           }
 
-          // Update with the blob size
           const fileSize = fileData.size;
           const { error: updateError } = await supabase
             .from('storage_images')
@@ -89,7 +79,6 @@ export async function backfillFileSizes(userId: string): Promise<{
             updated++;
           }
         } else {
-          // Update with the metadata size
           const { error: updateError } = await supabase
             .from('storage_images')
             .update({ file_size: file.metadata.size })
@@ -101,15 +90,13 @@ export async function backfillFileSizes(userId: string): Promise<{
             updated++;
           }
         }
-      } catch (error) {
-        errors.push(`Error processing image ${image.id}: ${error}`);
+      } catch (err) {
+        errors.push(`Error processing image ${image.id}: ${err}`);
       }
     }
-  }
-    // Process each tool image
+
     for (const tool of tools || []) {
       try {
-        // Extract the storage path from the image_url
         const path = extractStoragePathFromUri(tool.image_url, userId);
 
         if (!path) {
@@ -117,11 +104,10 @@ export async function backfillFileSizes(userId: string): Promise<{
           continue;
         }
 
-        // List the file to get its metadata
         const { data: files, error: listError } = await supabase.storage
           .from('storage-images')
           .list(userId, {
-            search: path.split('/').pop() // Get just the filename
+            search: path.split('/').pop()
           });
 
         if (listError) {
@@ -132,7 +118,6 @@ export async function backfillFileSizes(userId: string): Promise<{
         const file = files?.find(f => f.name === path.split('/').pop());
 
         if (!file || !file.metadata?.size) {
-          // Try to fetch the file to get its size
           const { data: fileData, error: downloadError } = await supabase.storage
             .from('storage-images')
             .download(path);
@@ -142,7 +127,6 @@ export async function backfillFileSizes(userId: string): Promise<{
             continue;
           }
 
-          // Update with the blob size
           const fileSize = fileData.size;
           const { error: updateError } = await supabase
             .from('tools')
@@ -155,7 +139,6 @@ export async function backfillFileSizes(userId: string): Promise<{
             updated++;
           }
         } else {
-          // Update with the metadata size
           const { error: updateError } = await supabase
             .from('tools')
             .update({ file_size: file.metadata.size })
@@ -167,37 +150,32 @@ export async function backfillFileSizes(userId: string): Promise<{
             updated++;
           }
         }
-      } catch (error) {
-        errors.push(`Error processing tool ${tool.id}: ${error}`);
+      } catch (err) {
+        errors.push(`Error processing tool ${tool.id}: ${err}`);
       }
     }
 
     return { success: errors.length === 0, updated, errors };
-  } catch (error) {
-    errors.push(`Unexpected error: ${error}`);
+  } catch (err) {
+    errors.push(`Unexpected error: ${err}`);
     return { success: false, updated, errors };
   }
 }
 
-/**
- * Extract the storage path from a Supabase storage URL
- */
 function extractStoragePathFromUri(uri: string, userId: string): string | null {
   try {
-    // Handle signed URLs
     if (uri.includes('/storage/v1/object/sign/storage-images/')) {
       const match = uri.match(/\/storage\/v1\/object\/sign\/storage-images\/(.+?)\?/);
       return match ? match[1] : null;
     }
 
-    // Handle public URLs
     if (uri.includes('/storage/v1/object/public/storage-images/')) {
       const match = uri.match(/\/storage\/v1\/object\/public\/storage-images\/(.+)$/);
       return match ? match[1] : null;
     }
 
     return null;
-    } catch (_error) {
+  } catch {
     return null;
   }
 }
