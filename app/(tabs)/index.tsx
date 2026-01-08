@@ -250,7 +250,7 @@ export default function GalleryScreen() {
               >
                <Image
   source={{ uri: item.image_uri }}
-  style={styles.image}
+  style={styles.cardImage}
   resizeMode="cover"
 />
                 <View style={styles.cardOverlay}>
