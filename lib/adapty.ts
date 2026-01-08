@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
-import { adapty, AdaptyProfile, AdaptyPaywall, AdaptyPaywallProduct, AdaptyError } from 'react-native-adapty';
+import { adapty, AdaptyProfile, AdaptyPaywall, AdaptyError } from 'react-native-adapty';
+import type { AdaptyPaywallProduct } from 'react-native-adapty';
 import { PlanId } from './subscriptionLimits';
 
 const ADAPTY_API_KEY = process.env.EXPO_PUBLIC_ADAPTY_API_KEY || '';
@@ -121,7 +122,7 @@ export function parseSubscriptionInfo(profile: AdaptyProfile | null): AdaptySubs
     isPremium: true,
     planId,
     billingCycle,
-    isTrial: premiumAccess.isInGracePeriod || false,
+    isTrial: (premiumAccess as unknown as { activatedIntroductory?: boolean }).activatedIntroductory || false,
     expiresAt: premiumAccess.expiresAt ? new Date(premiumAccess.expiresAt) : null,
     willRenew: premiumAccess.willRenew || false,
   };
@@ -168,7 +169,6 @@ export async function getPaywallProducts(): Promise<AdaptyPaywallProduct[]> {
   }
 }
 
-
 export function parseProductInfo(product: AdaptyPaywallProduct): AdaptyProductInfo {
   const productId = product.vendorProductId;
   const planId = getPlanFromProductId(productId);
@@ -176,14 +176,13 @@ export function parseProductInfo(product: AdaptyPaywallProduct): AdaptyProductIn
 
   return {
     productId,
-    localizedPrice: product.localizedPrice || '$0.00',
+    localizedPrice: product.price?.localizedString || '$0.00',
     price: product.price?.amount || 0,
     currencyCode: product.price?.currencyCode || 'USD',
     planId,
     billingCycle,
   };
 }
-
 
 export async function makePurchase(product: AdaptyPaywallProduct): Promise<{
   success: boolean;
@@ -207,29 +206,17 @@ export async function makePurchase(product: AdaptyPaywallProduct): Promise<{
 
   try {
     const result = await adapty.makePurchase(product);
-    
-    // Handle the new AdaptyPurchaseResult type
-    if (result.type === 'user_cancelled') {
+    if ('profile' in result) {
       return {
-        success: false,
-        profile: null,
-        error: 'Purchase cancelled',
+        success: true,
+        profile: result.profile,
+        error: null,
       };
     }
-    
-    if (result.type === 'pending') {
-      return {
-        success: false,
-        profile: null,
-        error: 'Purchase pending',
-      };
-    }
-    
-    // result.type === 'success' - contains profile
     return {
-      success: true,
-      profile: 'profile' in result ? result.profile : null,
-      error: null,
+      success: false,
+      profile: null,
+      error: result.type === 'user_cancelled' ? 'Purchase cancelled' : 'Purchase pending',
     };
   } catch (error) {
     const adaptyError = error as AdaptyError;
@@ -241,7 +228,6 @@ export async function makePurchase(product: AdaptyPaywallProduct): Promise<{
     };
   }
 }
-
 
 export async function restorePurchases(): Promise<{
   success: boolean;
