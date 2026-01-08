@@ -1,0 +1,6 @@
+AppData/
+node_modules/
+.git/
+.expo/
+dist/
+*.log
