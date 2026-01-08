@@ -101,6 +101,7 @@ export async function backfillFileSizes(userId: string): Promise<{
           } else {
             updated++;
           }
+        }
       } catch (error) {
         errors.push(`Error processing image ${image.id}: ${error}`);
       }
